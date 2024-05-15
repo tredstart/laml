@@ -36,6 +36,7 @@ cmp = import "components.lcomp"
 cmp.position default_pos:
     x = 50,
     y = 50,
+;
 
 cmp.player_def player:
     position = default_pos,

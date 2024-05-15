@@ -42,6 +42,12 @@ func (l *Lexer) NextToken() token.Token {
 		tok = newToken(token.SEMICOLON, l.ch)
 	case ',':
 		tok = newToken(token.COMMA, l.ch)
+    case '=':
+        tok = newToken(token.ASSIGN, l.ch)
+    case '{':
+        tok = newToken(token.LBRACE, l.ch)
+    case '}':
+        tok = newToken(token.RBRACE, l.ch)
 	case 0:
 		tok.Literal = ""
 		tok.Type = token.EOF
@@ -79,6 +85,8 @@ func isValidChar(ch byte) bool {
 	case '_' == ch:
 		return true
 	case '0' <= ch && ch <= '9':
+		return true
+    case '.' == ch:
 		return true
 	default:
 		return false

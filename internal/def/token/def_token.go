@@ -1,5 +1,7 @@
 package token
 
+import "strings"
+
 type TokenType string
 
 type Token struct {
@@ -14,30 +16,24 @@ const (
 	COMMA     = ","
 	SEMICOLON = ";"
 	COLON     = ":"
-    TYPE = "TYPE"
+	TYPE      = "TYPE"
+	ASSIGN    = "="
+	LBRACE    = "{"
+	RBRACE    = "{"
 )
 
-var types = []string{
-	"u8",
-	"u16",
-	"u32",
-	"[]u8",
-    "i32",
-}
+var Types string = `u8,
+	u16,
+	u32,
+	[]u8,
+	i32,`
 
-func contains(str string) bool {
-    for _, v := range types {
-        if v == str {
-            return true
-        }
-    }
-    return false
-}
 
 func LookupIdent(ident string) TokenType {
-    if contains(ident) {
-        return TYPE
-    } else {
-        return IDENT
-    }
+	if strings.Contains(Types, ident) {
+		return TYPE
+	} else {
+		return IDENT
+	}
 }
+
