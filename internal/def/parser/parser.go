@@ -38,8 +38,8 @@ func (p *Parser) NextToken() {
 	p.peekToken = p.l.NextToken()
 }
 
-func (p *Parser) ParseObjects() *ast.Program {
-	program := &ast.Program{}
+func (p *Parser) ParseObjects() *ast.Object {
+	program := &ast.Object{}
 	program.Statements = []ast.Statement{}
 
 	for p.curToken.Type != token.EOF {
@@ -64,19 +64,68 @@ func (p *Parser) parseStatement() ast.Statement {
 
 func (p *Parser) parseVarStatement() *ast.VarStatement {
 	s := &ast.VarStatement{Token: p.curToken}
-	s.Type = &ast.Identifier{Token: p.curToken, Value: p.curToken.Literal}
-	if !p.peekTokenIs(token.COLON) || !p.peekTokenIs(token.SEMICOLON) {
-		p.NextToken()
+	if !p.peekTokenIs(token.COLON) {
+		if !p.expectPeek(token.IDENT) {
+			p.PeekErrors(token.IDENT)
+			return nil
+		}
+		s.Name = &ast.Identifier{Token: p.curToken, Value: p.curToken.Literal}
+		if !p.expectPeek(token.COLON) {
+			p.PeekErrors(token.COLON)
+			return nil
+		}
+		for !p.peekTokenIs(token.SEMICOLON){
+
+			if p.curTokenIs(token.EOF) {
+				p.PeekErrors(token.SEMICOLON)
+				return nil
+			}
+			obj := p.parseFieldStatement()
+
+			if obj == nil {
+				return nil
+			}
+			s.Value.Statements = append(s.Value.Statements, obj)
+		}
+	} else {
+		// TODO make this thing def statement
 	}
-	if !p.curTokenIs(token.IDENT) {
+	return s
+}
+
+func (p *Parser) parseFieldStatement() *ast.FieldStatement {
+
+	if !p.expectPeek(token.IDENT) {
+		p.PeekErrors(token.IDENT)
 		return nil
 	}
-    if !p.peekTokenIs(token.COLON) {
-        p.PeekErrors(token.COLON)
-        return nil
-    }
-	s.Name = &ast.Identifier{Token: p.curToken, Value: p.curToken.Literal}
+
+	s := &ast.FieldStatement{
+		Token: token.Token{Type: token.IDENT, Literal: p.curToken.Literal},
+	}
+
+	if !p.expectPeek(token.ASSIGN) {
+		p.PeekErrors(token.ASSIGN)
+		return nil
+	}
+
+	if !p.expectPeek(token.IDENT) {
+		p.PeekErrors(token.IDENT)
+		return nil
+	}
+
+	s.Value = &ast.Identifier{
+		Token: token.Token{Type: token.IDENT, Literal: p.curToken.Literal},
+		Value: p.curToken.Literal,
+	}
+
+	if !p.expectPeek(token.COMMA) {
+		p.PeekErrors(token.COMMA)
+		return nil
+	}
+
 	return s
+
 }
 
 func (p *Parser) curTokenIs(t token.TokenType) bool {
@@ -92,7 +141,7 @@ func (p *Parser) expectPeek(t token.TokenType) bool {
 		p.NextToken()
 		return true
 	} else {
-        p.PeekErrors(t)
+		p.PeekErrors(t)
 		return false
 	}
 }
