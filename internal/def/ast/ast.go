@@ -12,7 +12,7 @@ type Node interface {
 
 type Statement interface {
 	Node
-	statementNode()
+    Type() string
 }
 
 type Object struct {
@@ -51,7 +51,7 @@ type DefStatement struct {
 	Value *Identifier
 }
 
-func (vs *VarStatement) statementNode()       {}
+func (vs *VarStatement) Type() string {return "Var"}
 func (vs *VarStatement) TokenLiteral() string { return vs.Token.Literal }
 func (vs *VarStatement) String() string {
 	var out bytes.Buffer
@@ -66,7 +66,7 @@ type Identifier struct {
 	Value string
 }
 
-func (fs *FieldStatement) statementNode()       {}
+func (fs *FieldStatement) Type() string {return "Field"}
 func (fs *FieldStatement) TokenLiteral() string { return fs.Token.Literal }
 func (fs *FieldStatement) String() string {
 	var out bytes.Buffer
@@ -75,7 +75,7 @@ func (fs *FieldStatement) String() string {
 	return out.String()
 }
 
-func (ds *DefStatement) statementNode()       {}
+func (ds *DefStatement) Type() string { return "Def"}
 func (ds *DefStatement) TokenLiteral() string { return ds.Token.Literal }
 func (ds *DefStatement) String() string {
 	var out bytes.Buffer
@@ -83,6 +83,5 @@ func (ds *DefStatement) String() string {
 	out.WriteString(ds.Value.String() + ",")
 	return out.String()
 }
-func (i *Identifier) expressionNode()      {}
 func (i *Identifier) TokenLiteral() string { return i.Token.Literal }
 func (i *Identifier) String() string       { return i.Value }
