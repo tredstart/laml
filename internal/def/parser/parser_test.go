@@ -37,7 +37,6 @@ func TestVarStatements(t *testing.T) {
 
 	for i, tt := range tests {
 		stms := program.Statements[i]
-        t.Log(program.Statements)
 		if !testVarStatement(t, stms, tt.expectedType, tt.expectedIdentifier) {
 			t.Fatal("Failed to get correct statemetn")
 		}
@@ -69,6 +68,55 @@ func testVarStatement(t *testing.T, s ast.Statement, tt, name string) bool {
 	return true
 }
 
+func TestDefStatement(t *testing.T) {
+	input := `
+    position:
+        u32 x,
+        i32 y,
+    ;
+    `
+
+	l := lexer.New(input)
+	p := New(l)
+
+	program := p.ParseObjects()
+	checkParserErrors(t, p)
+	if program == nil {
+		t.Fatal("ParseObjects failed to init")
+	}
+
+	if len(program.Statements) != 1 {
+		t.Fatalf("program.Statements doesn't have 1 statements. got = %d", len(program.Statements))
+	}
+
+	tests := []struct {
+		expectedType       string
+	}{
+		{"position"},
+	}
+
+	for i, tt := range tests {
+		stms := program.Statements[i]
+		if !testDefStatement(t, stms, tt.expectedType) {
+			t.Fatal("Failed to get correct statemetn")
+		}
+	}
+}
+
+func testDefStatement(t *testing.T, s ast.Statement, tt string) bool {
+	varStmt, ok := s.(*ast.VarStatement)
+	if !ok {
+		t.Errorf("s not *ast.VarStatement. got = %T", s)
+		return false
+	}
+
+	if varStmt.TokenLiteral() != tt {
+		t.Errorf("letStmt.Type.Value not %s. got = %s ", tt, varStmt.TokenLiteral())
+		return false
+	}
+
+	return true
+}
 func checkParserErrors(t *testing.T, p *Parser) {
 	errors := p.Errors()
 	if len(errors) == 0 {
@@ -94,19 +142,19 @@ func TestString(t *testing.T) {
 				Value: ast.Object{
 					Statements: []ast.Statement{
 						&ast.FieldStatement{
-                            Token: token.Token{Type: token.IDENT, Literal: "x"},
-                            Value: &ast.Identifier{
-                                Token: token.Token{Type: token.IDENT, Literal: "0"},
-                                Value: "0",
-                            },
-                        },
+							Token: token.Token{Type: token.IDENT, Literal: "x"},
+							Value: &ast.Identifier{
+								Token: token.Token{Type: token.IDENT, Literal: "0"},
+								Value: "0",
+							},
+						},
 						&ast.FieldStatement{
-                            Token: token.Token{Type: token.IDENT, Literal: "y"},
-                            Value: &ast.Identifier{
-                                Token: token.Token{Type: token.IDENT, Literal: "70"},
-                                Value: "70",
-                            },
-                        },
+							Token: token.Token{Type: token.IDENT, Literal: "y"},
+							Value: &ast.Identifier{
+								Token: token.Token{Type: token.IDENT, Literal: "70"},
+								Value: "70",
+							},
+						},
 					},
 				},
 			},

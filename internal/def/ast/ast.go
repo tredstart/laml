@@ -48,8 +48,7 @@ type FieldStatement struct {
 
 type DefStatement struct {
 	Token token.Token
-	Name  *Identifier
-	Value Object
+	Value *Identifier
 }
 
 func (vs *VarStatement) statementNode()       {}
@@ -80,9 +79,8 @@ func (ds *DefStatement) statementNode()       {}
 func (ds *DefStatement) TokenLiteral() string { return ds.Token.Literal }
 func (ds *DefStatement) String() string {
 	var out bytes.Buffer
-	out.WriteString(ds.TokenLiteral() + " ")
-	out.WriteString(ds.Name.Value + ": ")
-	out.WriteString(ds.Value.String() + ";")
+    out.WriteString(ds.TokenLiteral() + " ")
+	out.WriteString(ds.Value.String() + ",")
 	return out.String()
 }
 func (i *Identifier) expressionNode()      {}

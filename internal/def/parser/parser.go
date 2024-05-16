@@ -74,7 +74,7 @@ func (p *Parser) parseVarStatement() *ast.VarStatement {
 			p.PeekErrors(token.COLON)
 			return nil
 		}
-		for !p.peekTokenIs(token.SEMICOLON){
+		for !p.peekTokenIs(token.SEMICOLON) {
 
 			if p.curTokenIs(token.EOF) {
 				p.PeekErrors(token.SEMICOLON)
@@ -88,7 +88,43 @@ func (p *Parser) parseVarStatement() *ast.VarStatement {
 			s.Value.Statements = append(s.Value.Statements, obj)
 		}
 	} else {
-		// TODO make this thing def statement
+		p.NextToken()
+
+		for !p.peekTokenIs(token.SEMICOLON) {
+			if p.curTokenIs(token.EOF) {
+				p.PeekErrors(token.SEMICOLON)
+				return nil
+			}
+			obj := p.parseDefStatement()
+
+			if obj == nil {
+				return nil
+			}
+			s.Value.Statements = append(s.Value.Statements, obj)
+        }
+	}
+	return s
+}
+
+func (p *Parser) parseDefStatement() *ast.DefStatement {
+	if !p.expectPeek(token.IDENT) {
+		p.PeekErrors(token.IDENT)
+		return nil
+	}
+	s := &ast.DefStatement{
+		Token: token.Token{Type: token.IDENT, Literal: p.curToken.Literal},
+	}
+	if !p.expectPeek(token.IDENT) {
+		p.PeekErrors(token.IDENT)
+		return nil
+	}
+	s.Value = &ast.Identifier{
+		Token: token.Token{Type: token.IDENT, Literal: p.curToken.Literal},
+		Value: p.curToken.Literal,
+	}
+	if !p.expectPeek(token.COMMA) {
+		p.PeekErrors(token.COMMA)
+		return nil
 	}
 	return s
 }
