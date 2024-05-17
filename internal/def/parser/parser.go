@@ -2,10 +2,11 @@ package parser
 
 import (
 	"fmt"
-	"laml/internal/def/ast"
-	"laml/internal/def/lexer"
-	"laml/internal/def/token"
 	"reflect"
+
+	"github.com/tredstart/laml/internal/def/ast"
+	"github.com/tredstart/laml/internal/def/lexer"
+	"github.com/tredstart/laml/internal/def/token"
 )
 
 type Parser struct {

@@ -1,8 +1,9 @@
 package lexer
 
 import (
-	"laml/internal/def/token"
 	"testing"
+
+	"github.com/tredstart/laml/internal/def/token"
 )
 
 func TestNextToken(t *testing.T) {

@@ -1,10 +1,11 @@
 package parser
 
 import (
-	"laml/internal/def/ast"
-	"laml/internal/def/lexer"
-	"laml/internal/def/token"
 	"testing"
+
+	"github.com/tredstart/laml/internal/def/ast"
+	"github.com/tredstart/laml/internal/def/lexer"
+	"github.com/tredstart/laml/internal/def/token"
 )
 
 func TestVarStatements(t *testing.T) {

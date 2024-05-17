@@ -1,8 +1,8 @@
 package printer
 
 import (
-	"laml/internal/def/lexer"
-	"laml/internal/def/parser"
+	"github.com/tredstart/laml/internal/def/lexer"
+	"github.com/tredstart/laml/internal/def/parser"
 	"testing"
 )
 
@@ -18,8 +18,8 @@ position default_pos:
 ;
     `
 	expected := `pub const velocity = struct {
-    x i32,
-    y u8,
+    x: i32,
+    y: u8,
 };
 pub var default_pos = position{
     .x = 50,

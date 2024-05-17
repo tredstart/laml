@@ -2,7 +2,8 @@ package printer
 
 import (
 	"fmt"
-	"laml/internal/def/ast"
+
+	"github.com/tredstart/laml/internal/def/ast"
 )
 
 func WalkObjects(obj ast.Object) string {
