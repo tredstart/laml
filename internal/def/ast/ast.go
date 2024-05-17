@@ -2,7 +2,7 @@ package ast
 
 import (
 	"bytes"
-	"littlelang/internal/def/token"
+	"laml/internal/def/token"
 )
 
 type Node interface {

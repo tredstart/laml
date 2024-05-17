@@ -1,7 +1,7 @@
 package lexer
 
 import (
-	"littlelang/internal/def/token"
+	"laml/internal/def/token"
 	"testing"
 )
 

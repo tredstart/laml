@@ -1,9 +1,9 @@
 package parser
 
 import (
-	"littlelang/internal/def/ast"
-	"littlelang/internal/def/lexer"
-	"littlelang/internal/def/token"
+	"laml/internal/def/ast"
+	"laml/internal/def/lexer"
+	"laml/internal/def/token"
 	"testing"
 )
 

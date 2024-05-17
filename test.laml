@@ -1,0 +1,19 @@
+position: 
+    u32 x,
+    i32 y,
+;
+
+position default_position:
+    x = 50,
+    y = -34,
+;
+
+player:
+    position pos,
+    []u8 texture,
+;
+
+player p:
+    pos = default_position,
+    texture = "res/image.png",
+;

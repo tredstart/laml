@@ -1,7 +1,7 @@
 package lexer
 
 import (
-	"littlelang/internal/def/token"
+	"laml/internal/def/token"
 )
 
 type Lexer struct {
@@ -33,7 +33,7 @@ func (l *Lexer) readChar() {
 func (l *Lexer) NextToken() token.Token {
 	var tok token.Token
 
-    l.skipWhitespace()
+	l.skipWhitespace()
 
 	switch l.ch {
 	case ':':
@@ -42,23 +42,23 @@ func (l *Lexer) NextToken() token.Token {
 		tok = newToken(token.SEMICOLON, l.ch)
 	case ',':
 		tok = newToken(token.COMMA, l.ch)
-    case '=':
-        tok = newToken(token.ASSIGN, l.ch)
-    case '{':
-        tok = newToken(token.LBRACE, l.ch)
-    case '}':
-        tok = newToken(token.RBRACE, l.ch)
+	case '=':
+		tok = newToken(token.ASSIGN, l.ch)
+	case '{':
+		tok = newToken(token.LBRACE, l.ch)
+	case '}':
+		tok = newToken(token.RBRACE, l.ch)
 	case 0:
 		tok.Literal = ""
 		tok.Type = token.EOF
-    default: 
-        if isValidChar(l.ch) {
-            tok.Literal = l.readIdentifier()
-            tok.Type = token.IDENT
-            return tok
-        } else {
-            tok = newToken(token.ILLEGAL, l.ch)
-        }
+	default:
+		if isValidChar(l.ch) {
+			tok.Literal = l.readIdentifier()
+			tok.Type = token.IDENT
+			return tok
+		} else {
+			tok = newToken(token.ILLEGAL, l.ch)
+		}
 	}
 	l.readChar()
 	return tok
@@ -82,11 +82,11 @@ func isValidChar(ch byte) bool {
 		return true
 	case 'A' <= ch && ch <= 'Z':
 		return true
-	case '_' == ch:
+	case '_' == ch || '/' == ch || '[' == ch || ']' == ch:
 		return true
 	case '0' <= ch && ch <= '9':
 		return true
-    case '.' == ch:
+	case '.' == ch || '-' == ch || '"' == ch:
 		return true
 	default:
 		return false
@@ -94,7 +94,7 @@ func isValidChar(ch byte) bool {
 }
 
 func (l *Lexer) skipWhitespace() {
-    for l.ch == ' ' ||l.ch == '\t' || l.ch == '\n' || l.ch == '\r' {
-        l.readChar()
-    }
+	for l.ch == ' ' || l.ch == '\t' || l.ch == '\n' || l.ch == '\r' {
+		l.readChar()
+	}
 }
