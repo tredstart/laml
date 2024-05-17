@@ -5,7 +5,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/tredstart/laml/pkg/laml"
+	"github.com/tredstart/laml/laml"
 )
 
 func main() {
