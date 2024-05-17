@@ -3,7 +3,7 @@ package ast
 import (
 	"bytes"
 
-	"github.com/tredstart/laml/internal/def/token"
+	"github.com/tredstart/laml/def/token"
 )
 
 type Node interface {

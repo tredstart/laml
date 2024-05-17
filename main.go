@@ -5,7 +5,9 @@ import (
 	"os"
 	"strings"
 
-	"github.com/tredstart/laml/laml"
+	"github.com/tredstart/laml/def/lexer"
+	"github.com/tredstart/laml/def/parser"
+	"github.com/tredstart/laml/printer"
 )
 
 func main() {
@@ -23,12 +25,18 @@ func main() {
 		return
 	}
 
-	program := laml.LamlParse(string(input))
+    l := lexer.New(string(input))
+    p := parser.New(l)
+
+	program := p.ParseObjects()
+    for _, e := range p.Errors() {
+        fmt.Println(e)
+    }
 	if program == nil {
 		fmt.Println("can't parse")
 		return
 	}
-	result := laml.LamlWalk(*program)
+	result := printer.WalkObjects(*program)
 	filename = strings.TrimSuffix(filename, ".laml")
 	filename += ".zig"
 	file, err := os.Create(filename)

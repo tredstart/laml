@@ -1,9 +1,10 @@
 package printer
 
 import (
-	"github.com/tredstart/laml/internal/def/lexer"
-	"github.com/tredstart/laml/internal/def/parser"
 	"testing"
+
+	"github.com/tredstart/laml/def/lexer"
+	"github.com/tredstart/laml/def/parser"
 )
 
 func TestWrite(t *testing.T) {

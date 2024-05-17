@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/tredstart/laml/internal/def/ast"
-	"github.com/tredstart/laml/internal/def/lexer"
-	"github.com/tredstart/laml/internal/def/token"
+	"github.com/tredstart/laml/def/ast"
+	"github.com/tredstart/laml/def/lexer"
+	"github.com/tredstart/laml/def/token"
 )
 
 type Parser struct {

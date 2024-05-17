@@ -1,6 +1,7 @@
 package lexer
 
-import "github.com/tredstart/laml/internal/def/token"
+import "github.com/tredstart/laml/def/token"
+
 
 type Lexer struct {
 	input        string

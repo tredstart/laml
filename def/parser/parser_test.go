@@ -3,9 +3,9 @@ package parser
 import (
 	"testing"
 
-	"github.com/tredstart/laml/internal/def/ast"
-	"github.com/tredstart/laml/internal/def/lexer"
-	"github.com/tredstart/laml/internal/def/token"
+	"github.com/tredstart/laml/def/ast"
+	"github.com/tredstart/laml/def/lexer"
+	"github.com/tredstart/laml/def/token"
 )
 
 func TestVarStatements(t *testing.T) {
